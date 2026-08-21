@@ -6,6 +6,8 @@ import com.venturini.usuario.infrastructure.entity.Usuario;
 import com.venturini.usuario.infrastructure.exceptions.ConflictException;
 import com.venturini.usuario.infrastructure.exceptions.ResourceNotFoundException;
 import com.venturini.usuario.infrastructure.repository.UsuarioRepository;
+import com.venturini.usuario.infrastructure.security.JwtUtil;
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioConverter usuarioConverter;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     // Salvar Usuário
     public UsuarioDTO salvaUsuario(UsuarioDTO usuarioDTO) {
@@ -55,5 +58,23 @@ public class UsuarioService {
         usuarioRepository.deleteByEmail(email);
     }
 
+    public UsuarioDTO atualizaDadosUsuario(String token, UsuarioDTO usuarioDTO) {
+        // Aqui buscamos o email do usuário através do token (tirar a obrigatoriedade do email)
+        String email = jwtUtil.extractUsername(token.substring(7));
+
+        // Busca os dados do usuário no banco de dados
+        Usuario usuarioEntity = usuarioRepository.findByEmail(email).orElseThrow(()->
+                new ResourceNotFoundException("Email não localizado. " + email));
+
+        // Mesclou os dados que recebemos da requisição DTO com os dados  do banco de dados
+        Usuario usuario = usuarioConverter.updateUsuario(usuarioDTO, usuarioEntity);
+
+        // Colocou criptografia na nossa senha
+        usuarioDTO.setSenha(usuarioDTO.getEmail() != null ? passwordEncoder.encode(usuarioDTO.getSenha()) : null);
+
+        // Salvou os dados do usuário convertido e depois pegou o retorno e converter para UsuarioDTO
+        return usuarioConverter.paraUsuarioDTO(usuarioRepository.save(usuario));
+
+    }
 
 }

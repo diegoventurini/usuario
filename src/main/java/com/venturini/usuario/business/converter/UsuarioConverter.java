@@ -8,7 +8,6 @@ import com.venturini.usuario.infrastructure.entity.Telefone;
 import com.venturini.usuario.infrastructure.entity.Usuario;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -123,4 +122,16 @@ public class UsuarioConverter {
                 .ddd(telefoneEntity.getDdd())
                 .build();
     }
-}
+
+   public Usuario updateUsuario(UsuarioDTO usuarioDTO, Usuario usuarioEntity) {
+        return Usuario.builder()
+                .id(usuarioEntity.getId())
+                // Mudou o nome grava no DTO, senão pega do banco de dados(entity)
+                .nome(usuarioDTO.getNome() != null ? usuarioDTO.getNome() : usuarioEntity.getNome())
+                .senha(usuarioDTO.getSenha() != null ? usuarioDTO.getSenha() : usuarioEntity.getSenha())
+                .email(usuarioDTO.getEmail() != null ? usuarioDTO.getEmail() : usuarioEntity.getEmail())
+                .enderecos(usuarioEntity.getEnderecos()) // aqui não muda o endereços
+                .telefones(usuarioEntity.getTelefones()) // aqui não muda o telefones
+                .build();
+   }
+ }
