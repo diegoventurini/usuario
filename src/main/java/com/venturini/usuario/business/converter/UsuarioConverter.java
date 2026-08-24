@@ -8,7 +8,6 @@ import com.venturini.usuario.infrastructure.entity.Telefone;
 import com.venturini.usuario.infrastructure.entity.Usuario;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -104,6 +103,7 @@ public class UsuarioConverter {
 
     public EnderecoDTO paraEnderecoDTO(Endereco enderecoEntity) {
         return EnderecoDTO.builder()
+                .id(enderecoEntity.getId())
                 .rua(enderecoEntity.getRua())
                 .numero(enderecoEntity.getNumero())
                 .complemento(enderecoEntity.getComplemento())
@@ -119,8 +119,42 @@ public class UsuarioConverter {
 
     public TelefoneDTO paraTelefoneDTO(Telefone telefoneEntity) {
         return  TelefoneDTO.builder()
+                .id(telefoneEntity.getId())
                 .numero(telefoneEntity.getNumero())
                 .ddd(telefoneEntity.getDdd())
+                .build();
+    }
+
+   public Usuario updateUsuario(UsuarioDTO usuarioDTO, Usuario usuarioEntity) {
+        return Usuario.builder()
+                .id(usuarioEntity.getId())
+                // Mudou o nome grava no DTO, senão pega do banco de dados(entity)
+                .nome(usuarioDTO.getNome() != null ? usuarioDTO.getNome() : usuarioEntity.getNome())
+                .senha(usuarioDTO.getSenha() != null ? usuarioDTO.getSenha() : usuarioEntity.getSenha())
+                .email(usuarioDTO.getEmail() != null ? usuarioDTO.getEmail() : usuarioEntity.getEmail())
+                .enderecos(usuarioEntity.getEnderecos()) // aqui não muda o endereços
+                .telefones(usuarioEntity.getTelefones()) // aqui não muda o telefones
+                .build();
+   }
+    public Endereco updateEndereco(EnderecoDTO enderecoDTO, Endereco enderecoEntity) {
+        return Endereco.builder()
+                .id(enderecoEntity.getId())
+                // Mudou o nome grava no DTO, senão pega do banco de dados(entity)
+                .rua(enderecoDTO.getRua() != null ? enderecoDTO.getRua() : enderecoEntity.getRua())
+                .numero(enderecoDTO.getNumero() != null ? enderecoDTO.getNumero() : enderecoEntity.getNumero())
+                .complemento(enderecoDTO.getComplemento() != null ? enderecoDTO.getComplemento() : enderecoEntity.getComplemento())
+                .cidade(enderecoDTO.getCidade() != null ? enderecoDTO.getCidade() : enderecoEntity.getCidade())
+                .estado(enderecoDTO.getEstado() != null ? enderecoDTO.getEstado() : enderecoEntity.getEstado())
+                .cep(enderecoDTO.getCep() != null ? enderecoDTO.getCep() : enderecoEntity.getCep())
+                .build();
+    }
+
+    public Telefone updateTelefone(TelefoneDTO telefoneDTO, Telefone telefoneEntity) {
+        return Telefone.builder()
+                .id(telefoneEntity.getId())
+                // Mudou o nome grava no DTO, senão pega do banco de dados(entity)
+                .numero(telefoneDTO.getNumero() != null ? telefoneDTO.getNumero() : telefoneEntity.getNumero())
+                .ddd(telefoneDTO.getDdd() != null ? telefoneDTO.getDdd() : telefoneEntity.getDdd())
                 .build();
     }
 }

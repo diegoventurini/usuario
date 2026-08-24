@@ -1,6 +1,8 @@
 package com.venturini.usuario.controller;
 
 import com.venturini.usuario.business.UsuarioService;
+import com.venturini.usuario.business.dto.EnderecoDTO;
+import com.venturini.usuario.business.dto.TelefoneDTO;
 import com.venturini.usuario.business.dto.UsuarioDTO;
 import com.venturini.usuario.infrastructure.entity.Usuario;
 import com.venturini.usuario.infrastructure.security.JwtUtil;
@@ -40,7 +42,7 @@ public class UsuarioController {
 
     // @GET -> BUSCAR (Padrão HTTP -> Padrão Rest)
     @GetMapping
-    public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam("email") String email) {
+    public ResponseEntity<UsuarioDTO> buscarUsuarioPorEmail(@RequestParam("email") String email) {
         return ResponseEntity.ok(usuarioService.buscaUsuarioPorEmail(email));
     }
 
@@ -49,5 +51,23 @@ public class UsuarioController {
     public ResponseEntity<Void> deletarUsuarioPorEmail(@PathVariable String email) {
         usuarioService.deletaUsuarioPorEmail(email);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<UsuarioDTO> atualizarUsuario(@RequestBody UsuarioDTO usuarioDTO,
+                                                       @RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(usuarioService.atualizaDadosUsuario(token, usuarioDTO));
+    }
+
+    @PutMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> atualizarEndereco(@RequestBody EnderecoDTO enderecoDTO,
+                                                         @RequestParam("id") Long id) {
+        return ResponseEntity.ok(usuarioService.atualizaEndereco(id, enderecoDTO));
+    }
+
+    @PutMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> atualizarTelefone(@RequestBody TelefoneDTO telefoneDTO,
+                                                         @RequestParam("id") Long id) {
+        return ResponseEntity.ok(usuarioService.atualizaTelefone(id, telefoneDTO));
     }
 }
