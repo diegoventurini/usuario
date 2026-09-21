@@ -28,7 +28,7 @@ public class UsuarioService {
     private final EnderecoRepository enderecoRepository;
     private final TelefoneRepository telefoneRepository;
 
-    // Salvar Usuário
+    // Salvar UsuárioDTO
     public UsuarioDTO salvaUsuario(UsuarioDTO usuarioDTO) {
         emailExiste(usuarioDTO.getEmail());
         // Setar a senha criptografada
