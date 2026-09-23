@@ -2,6 +2,7 @@ package com.venturini.usuario.controller;
 
 import com.venturini.usuario.infrastructure.exceptions.ConflictException;
 import com.venturini.usuario.infrastructure.exceptions.ResourceNotFoundException;
+import com.venturini.usuario.infrastructure.exceptions.IllegalArgumentException;
 import com.venturini.usuario.infrastructure.exceptions.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +17,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(ConflictException.class)
-    public ResponseEntity<String> hanldeConflictException(ConflictException ex) {
+    public ResponseEntity<String> handleConflictException(ConflictException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<String> handleUnauthorizedException(UnauthorizedException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }
