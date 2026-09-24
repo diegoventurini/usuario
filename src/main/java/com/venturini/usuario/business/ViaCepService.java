@@ -2,6 +2,7 @@ package com.venturini.usuario.business;
 
 import com.venturini.usuario.infrastructure.clients.ViaCepClient;
 import com.venturini.usuario.infrastructure.clients.dto.ViaCepDTO;
+import com.venturini.usuario.infrastructure.exceptions.IllegalArgumentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class ViaCepService {
 
         // \d+ -> mais de um números ou [0-9]
         if(!cepFormatado.matches("\\d+") || !Objects.equals(cepFormatado.length(), 8)) {
-            throw new IllegalArgumentException("CEP: " + cep + " é invalido! Favor digitar novamente");
+            throw new IllegalArgumentException("CEP: " + cep + " é invalido! Favor digitar corretamente.");
         }
         return cepFormatado;
     }
