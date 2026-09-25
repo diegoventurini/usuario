@@ -6,7 +6,6 @@ import com.venturini.usuario.business.dto.EnderecoDTO;
 import com.venturini.usuario.business.dto.TelefoneDTO;
 import com.venturini.usuario.business.dto.UsuarioDTO;
 import com.venturini.usuario.infrastructure.clients.dto.ViaCepDTO;
-import com.venturini.usuario.infrastructure.security.JwtUtil;
 import com.venturini.usuario.infrastructure.security.SecurityConfig;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,9 +13,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,8 +25,6 @@ import org.springframework.web.bind.annotation.*;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil;
     private final ViaCepService viaCepService;
 
     // POST -> CREATE (Padrão HTTP <- Padrão Rest)
@@ -51,12 +45,8 @@ public class UsuarioController {
     @ApiResponse(responseCode = "200", description = "Usuário logado com sucesso")
     @ApiResponse(responseCode = "401", description = "Credenciais inválidas")
     @ApiResponse(responseCode = "500", description = "Erro de servidor")
-    public String login(@RequestBody UsuarioDTO usuarioDTO) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(usuarioDTO.getEmail(),
-                        usuarioDTO.getSenha())
-        );
-        return "Bearer " + jwtUtil.generateToken(authentication.getName());
+    public ResponseEntity<String> login(@RequestBody UsuarioDTO usuarioDTO) {
+        return ResponseEntity.ok(usuarioService.autenticaLoginUsuario(usuarioDTO));
     }
 
     // @GET -> BUSCAR (Padrão HTTP -> Padrão Rest)
