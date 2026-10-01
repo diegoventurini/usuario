@@ -7,18 +7,17 @@ import com.venturini.usuario.infrastructure.entity.Endereco;
 import com.venturini.usuario.infrastructure.entity.Telefone;
 import com.venturini.usuario.infrastructure.entity.Usuario;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 @Component
 public class UsuarioConverter {
 
     // ______________________________________________________________________
-    // DTO para Entity
-    // ______________________________________________________________________
+    //     DTO para Entity
+    //   ______________________________________________________________________
 
     public Usuario paraUsuario(UsuarioDTO usuarioDTO) {
-        // Uma das formas para converter DTO -> ENTITY
+//        Uma das formas para converter DTO -> ENTITY
 //        Usuario usuario = new Usuario();
 //        usuario.setNome(usuarioDTO.getNome());
 //        usuario.setEmail(usuarioDTO.getEmail());
@@ -39,13 +38,12 @@ public class UsuarioConverter {
         // Transforma endereco em uma lista de enderecos
         return enderecoDTOS.stream().map(this::paraEndereco).toList();
 
-        // Outra forma de conversao
+//         Outra forma de conversao
 //        List<Endereco> enderecos = new ArrayList<>();
-//        for(EnderecoDTO enderecoDTO : enderecoDTOS) {
+//       for(EnderecoDTO enderecoDTO : enderecoDTOS) {
 //            enderecos.add(paraEndereco(enderecoDTO));
 //        }
-//
-//        return enderecos;
+//        return enderecos; */
     }
 
     public Endereco paraEndereco(EnderecoDTO enderecoDTO) {
@@ -71,11 +69,11 @@ public class UsuarioConverter {
     }
 
     // ______________________________________________________________________
-    // Entity para DTO
-    // ______________________________________________________________________
+    //   Entity para DTO
+    //   ______________________________________________________________________
 
     public UsuarioDTO paraUsuarioDTO(Usuario usuarioEntity) {
-        // Uma das formas para converter DTO -> ENTITY
+//        Uma das formas para converter DTO -> ENTITY
 //        UsuarioDTO usuarioDto = new UsuarioDTO();
 //        usuarioDto.setNome(usuarioEntity.getNome());
 //        usuarioDto.setEmail(usuarioEntity.getEmail());
@@ -96,12 +94,11 @@ public class UsuarioConverter {
         // Transforma endereco em uma lista de enderecos
         return enderecoEntitys.stream().map(this::paraEnderecoDTO).toList();
 
-        // Outra forma de conversao
+//        Outra forma de conversao
 //        List<Endereco> enderecos = new ArrayList<>();
 //        for(EnderecoDTO enderecoDTO : enderecoDTOS) {
 //            enderecos.add(paraEndereco(enderecoDTO));
 //        }
-//
 //        return enderecos;
     }
 
@@ -129,7 +126,7 @@ public class UsuarioConverter {
                 .build();
     }
 
-   public Usuario updateUsuario(UsuarioDTO usuarioDTO, Usuario usuarioEntity) {
+    public Usuario updateUsuario(UsuarioDTO usuarioDTO, Usuario usuarioEntity) {
         return Usuario.builder()
                 .id(usuarioEntity.getId())
                 // Mudou o nome grava no DTO, senão pega do banco de dados(entity)
@@ -139,7 +136,7 @@ public class UsuarioConverter {
                 .enderecos(usuarioEntity.getEnderecos()) // aqui não muda o endereços
                 .telefones(usuarioEntity.getTelefones()) // aqui não muda o telefones
                 .build();
-   }
+    }
     public Endereco updateEndereco(EnderecoDTO enderecoDTO, Endereco enderecoEntity) {
         return Endereco.builder()
                 .id(enderecoEntity.getId())
@@ -170,7 +167,7 @@ public class UsuarioConverter {
                 .cidade(enderecoDTO.getCidade())
                 .estado(enderecoDTO.getEstado())
                 .cep(enderecoDTO.getCep())
-                .usuario_id(idUsuario)
+                .usuarioId(idUsuario)
                 .build();
     }
 
@@ -178,7 +175,7 @@ public class UsuarioConverter {
         return Telefone.builder()
                 .numero(telefoneDTO.getNumero())
                 .ddd(telefoneDTO.getDdd())
-                .usuario_id(idUsuario)
+                .usuarioId(idUsuario)
                 .build();
     }
 }

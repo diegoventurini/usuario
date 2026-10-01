@@ -14,7 +14,6 @@ import com.venturini.usuario.infrastructure.repository.EnderecoRepository;
 import com.venturini.usuario.infrastructure.repository.TelefoneRepository;
 import com.venturini.usuario.infrastructure.repository.UsuarioRepository;
 import com.venturini.usuario.infrastructure.security.JwtUtil;
-import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

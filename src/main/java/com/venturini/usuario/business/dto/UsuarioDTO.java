@@ -1,8 +1,6 @@
 package com.venturini.usuario.business.dto;
 
-import com.venturini.usuario.infrastructure.entity.Endereco;
 import lombok.*;
-
 import java.util.List;
 
 @Getter
