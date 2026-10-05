@@ -147,6 +147,7 @@ public class UsuarioConverter {
                 .cidade(enderecoDTO.getCidade() != null ? enderecoDTO.getCidade() : enderecoEntity.getCidade())
                 .estado(enderecoDTO.getEstado() != null ? enderecoDTO.getEstado() : enderecoEntity.getEstado())
                 .cep(enderecoDTO.getCep() != null ? enderecoDTO.getCep() : enderecoEntity.getCep())
+                .usuarioId(enderecoEntity.getUsuarioId())
                 .build();
     }
 
@@ -156,6 +157,7 @@ public class UsuarioConverter {
                 // Mudou o nome grava no DTO, senão pega do banco de dados(entity)
                 .numero(telefoneDTO.getNumero() != null ? telefoneDTO.getNumero() : telefoneEntity.getNumero())
                 .ddd(telefoneDTO.getDdd() != null ? telefoneDTO.getDdd() : telefoneEntity.getDdd())
+                .usuarioId(telefoneEntity.getUsuarioId())
                 .build();
     }
 
